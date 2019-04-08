@@ -1,0 +1,51 @@
+﻿@model MvcShopping.Models.Product
+
+@{
+    var ajaxOption = new AjaxOptions()
+    {
+        OnSuccess = "AddToCartSuccess",
+        OnFailure = "AddToCartFailure"
+    };
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function AddToCartSuccess() {
+            alert('添加购物车成功');
+        }
+        function AddToCartFailure(xhr) {
+            alert('添加购物车失败（HTTP状态代码：' + xhr.status + ')');
+        }
+    </script>
+    }
+
+<h2>您正在检视“@Model.Name”商品</h2>
+
+<fieldset>
+    <legend>@Html.DisplayNameFor(m => m)</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Price)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Price)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PublishOn)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PublishOn)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("添加购物车","AddToCart", "Cart", ajaxOption)
+</p>
