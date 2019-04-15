@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;//分页引用
 
 namespace MvcShopping.Controllers
 {
@@ -34,22 +35,25 @@ namespace MvcShopping.Controllers
         }
 
         // 商品列表
-        public ActionResult ProductList(int id)
+        public ActionResult ProductList(int id, int p = 1)
         {
             var productCategory = db.ProductCategories.Find(id);
             if (productCategory != null)
             {
                 var data = productCategory.Products.ToList();
-                //插入演示信息用
-                if (data.Count == 0)
-                {
-                    productCategory.Products.Add(new Product() { Name = productCategory.Name + "类别下的商品1", Color = Color.Red, Description = "N/A", Price = 99, PublishOn = DateTime.Now, ProductCategory = productCategory });
-                    productCategory.Products.Add(new Product() { Name = productCategory.Name + "类别下的商品2", Color = Color.Blue, Description = "N/A", Price = 150, PublishOn = DateTime.Now, ProductCategory = productCategory });
-                    db.SaveChanges();
+                //插入分页相关信息
+                var pagedData = data.ToPagedList(pageNumber: p, pageSize: 10);
 
-                    data = productCategory.Products.ToList();
-                }
-                return View(data);
+                ////插入演示信息用
+                //if (data.Count == 0)
+                //{
+                //    productCategory.Products.Add(new Product() { Name = productCategory.Name + "类别下的商品1", Color = Color.Red, Description = "N/A", Price = 99, PublishOn = DateTime.Now, ProductCategory = productCategory });
+                //    productCategory.Products.Add(new Product() { Name = productCategory.Name + "类别下的商品2", Color = Color.Blue, Description = "N/A", Price = 150, PublishOn = DateTime.Now, ProductCategory = productCategory });
+                //    db.SaveChanges();
+
+                //    data = productCategory.Products.ToList();
+                //}
+                return View(pagedData);
             }
             else
             {

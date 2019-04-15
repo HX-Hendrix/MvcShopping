@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MvcShopping.Models.Product>
+﻿@using PagedList
+@using PagedList.Mvc
+@model IEnumerable<MvcShopping.Models.Product>
 
 @{
     var ajaxOption = new AjaxOptions()
@@ -55,5 +57,8 @@
         </td>
     </tr>
 }
-
 </table>
+@{
+    var data = Model as IPagedList<MvcShopping.Models.Product>;
+}
+@Html.PagedListPager(list: data, generatePageUrl: Page => Url.Action("ProductList", new { p = Page }))

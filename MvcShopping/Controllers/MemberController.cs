@@ -110,6 +110,10 @@ namespace MvcShopping.Controllers
             }
             return RedirectToAction("Login", "Member");
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
         //显示会员登陆页面
         public ActionResult Login(string returnUrl)
         {
